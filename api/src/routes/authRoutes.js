@@ -3,13 +3,12 @@ import { Router } from 'express';
 import {
   registerUserSchema,
   loginUserSchema,
-  // requestResetEmailSchema,
 } from '../validations/authValidation.js';
 import {
   registerClient,
   loginClient,
   logoutClient,
-  // refreshUserSession,
+  refreshClientSession,
 } from '../controllers/authController.js';
 
 const authRoutes = Router();
@@ -22,10 +21,6 @@ authRoutes.post(
 
 authRoutes.post('/auth/login', celebrate(loginUserSchema), loginClient);
 authRoutes.post('/auth/logout', logoutClient);
-// authRoutes.post('/auth/refresh', refreshUserSession);
-// authRoutes.post(
-//   '/auth/request-reset-email',
-//   celebrate(requestResetEmailSchema),
-// );
+authRoutes.post('/auth/refresh', refreshClientSession);
 
 export default authRoutes;

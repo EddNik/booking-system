@@ -8,6 +8,7 @@ import { errors } from 'celebrate';
 import { errorHandler } from './middleware/errorHandler.js';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes.js';
+import appointRouter from './routes/appointmentRoutes.js';
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(cookieParser());
 app.use(logger);
 
 app.use(authRoutes);
-// app.use(router);
+app.use(appointRouter);
 app.use(notFoundHandler);
 app.use(errors());
 app.use(errorHandler);
