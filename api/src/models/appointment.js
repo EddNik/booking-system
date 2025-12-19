@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { BOOK_HOURS } from '../constants/book_hours.js';
+import { BOOK_HOURS } from '../constants/bookHours.js';
 
 const appointmentSchema = new Schema(
   {

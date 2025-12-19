@@ -7,8 +7,9 @@ import { connectMongoDB } from './db/connectMongoDB.js';
 import { errors } from 'celebrate';
 import { errorHandler } from './middleware/errorHandler.js';
 import cookieParser from 'cookie-parser';
-import authRoutes from './routes/authRoutes.js';
+import clientRoutes from './routes/clientRoutes.js';
 import appointRouter from './routes/appointmentRoutes.js';
+import businessRouter from './routes/businessRoutes.js';
 
 const app = express();
 
@@ -23,9 +24,9 @@ app.use(
 app.use(cookieParser());
 app.use(logger);
 
-app.use(authRoutes);
+app.use(clientRoutes);
 app.use(appointRouter);
-// app.use(businessRouter);
+app.use(businessRouter);
 
 app.use(notFoundHandler);
 app.use(errors());

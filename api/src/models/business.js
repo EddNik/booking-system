@@ -8,7 +8,6 @@ const businessSchema = new Schema(
     clientId: {
       type: Schema.Types.ObjectId,
       ref: 'Client',
-      // required: true,
     },
   },
   {
@@ -17,7 +16,9 @@ const businessSchema = new Schema(
   },
 );
 
-businessSchema.pre('save', function () {
+businessSchema.index({ name: 'text', email: 'text' });
+
+businessSchema.pre('save', function (next) {
   if (!this.name) {
     this.name = this.email;
   }

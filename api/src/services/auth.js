@@ -2,12 +2,13 @@ import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/time.js';
 import { Session } from '../models/session.js';
 import crypto from 'node:crypto';
 
-export const createSession = (clientId) => {
+export const createSession = ({ clientId, businessId }) => {
   const accessToken = crypto.randomBytes(30).toString('base64');
   const refreshToken = crypto.randomBytes(30).toString('base64');
 
   return Session.create({
-    clientId,
+    client: clientId,
+    business: businessId,
     accessToken,
     refreshToken,
     accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),

@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { celebrate } from 'celebrate';
 import {
   createAppointSchema,
-  getAppointSchema,
+  // getAppointSchema,
 } from '../validations/appointValidation.js';
 import {
   getAppointments,
@@ -17,18 +17,25 @@ const appointRouter = Router();
 appointRouter.use('/appointments', authenticate);
 
 appointRouter.get(
-  '/appointments',
-  celebrate(getAppointSchema),
+  '/appointments/available',
+  // celebrate(getAppointSchema),
   getAppointments,
 );
 
+// appointRouter.get('/appointments/client', getClientAppointments);
 // appointRouter.get('/appointments/business', getBusinessAppointments);
 
 appointRouter.post(
-  '/appointments',
+  '/bookAppointment',
   celebrate(createAppointSchema),
   bookAppointment,
 );
+
+// appointRouter.patch(
+//   '/appointments/:id',
+// celebrate(updateAppointmentSchema),
+// updateAppointment,
+// );
 
 // appointRouter.delete('/appointments/:id', cancelAppointment);
 

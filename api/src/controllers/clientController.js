@@ -1,13 +1,14 @@
 import { Client } from '../models/client.js';
 import { Session } from '../models/session.js';
+import { Appointment } from '../models/appointment.js';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { createSession, setSessionCookies } from '../services/auth.js';
 
 export const registerClient = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, name } = req.body;
 
-  const existingClient = await Client.findOne({ email: email });
+  const existingClient = await Client.findOne({ email });
 
   if (existingClient) {
     throw createHttpError(400, 'Email in use');
@@ -15,9 +16,13 @@ export const registerClient = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newClient = await Client.create({ email, password: hashedPassword });
+  const newClient = await Client.create({
+    email,
+    password: hashedPassword,
+    name: name || email,
+  });
 
-  const newSession = await createSession(newClient._id);
+  const newSession = await createSession(newClient._id, 'Client');
 
   setSessionCookies(res, newSession);
 
@@ -27,24 +32,21 @@ export const registerClient = async (req, res) => {
 export const loginClient = async (req, res) => {
   const { email, password } = req.body;
 
-  const existingClient = await Client.findOne({ email: email });
+  const existingClient = await Client.findOne({ email });
 
   if (!existingClient) {
-    throw createHttpError(401, 'Invalid credentials');
+    throw createHttpError(401, `There is no client with email: ${email}`);
   }
 
-  const isValidPassword = await bcrypt.compare(
-    password,
-    existingClient.password,
-  );
+  const validPassword = await bcrypt.compare(password, existingClient.password);
 
-  if (!isValidPassword) {
-    throw createHttpError(401, 'Invalid credentials');
+  if (!validPassword) {
+    throw createHttpError(401, 'Password is wrong');
   }
 
   await Session.deleteOne({ clientId: existingClient._id });
 
-  const newSession = await createSession(existingClient._id);
+  const newSession = await createSession({ clientId: existingClient._id });
 
   setSessionCookies(res, newSession);
 
@@ -86,7 +88,7 @@ export const refreshClientSession = async (req, res) => {
     refreshToken: req.cookies.refreshToken,
   });
 
-  const newSession = await createSession(session.clientId);
+  const newSession = await createSession(session.client);
   setSessionCookies(res, newSession);
 
   res.status(200).json({
@@ -97,11 +99,16 @@ export const refreshClientSession = async (req, res) => {
 export const deleteClient = async (req, res) => {
   const { email } = req.body;
 
-  const existingClient = await Client.findOneAndDelete({ email: email });
+  const existingClient = await Client.findOneAndDelete({ email });
 
   if (!existingClient) {
     throw createHttpError(404, 'Client not found');
   }
+
+  await Appointment.updateMany(
+    { clientId: existingClient._id, status: { $ne: 'cancelled' } },
+    { status: 'cancelled' },
+  );
 
   const { sessionId } = req.cookies;
 

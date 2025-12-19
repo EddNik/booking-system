@@ -8,7 +8,7 @@ const clientSchema = new Schema(
     businessId: {
       type: Schema.Types.ObjectId,
       ref: 'Business',
-      // required: true,
+
     },
   },
   {

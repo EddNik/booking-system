@@ -1,11 +1,12 @@
 import { Appointment } from '../models/appointment.js';
 
 export const bookAppointment = async (req, res) => {
-  const { clientId, businessId, date, time } = req.params;
+  const { clientId, businessId, date, time } = req.body;
   const existAppointment = await Appointment.findOne({
     businessId,
     date,
     time,
+    status: { $ne: 'cancelled' },
   });
   if (existAppointment) {
     return res
@@ -23,6 +24,6 @@ export const bookAppointment = async (req, res) => {
 };
 
 export const getAppointments = async (req, res) => {
-  const appointments = Appointment.find({ clientId: req.clients._id });
+  const appointments = Appointment.find({ clientId: req.client });
   res.json(appointments);
 };
