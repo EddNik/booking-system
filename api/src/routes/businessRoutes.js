@@ -3,7 +3,7 @@ import { celebrate } from 'celebrate';
 
 import {
   createBusinessSchema,
-  getBusinessesSchema,
+  getBusinessSchema,
   // updateBusinessSchema,
 } from '../validations/businessValidation.js';
 
@@ -30,7 +30,7 @@ businessRouter.post(
 
 businessRouter.get(
   '/businesses',
-  celebrate(getBusinessesSchema),
+  celebrate(getBusinessSchema),
   getAllBusinesses,
 );
 

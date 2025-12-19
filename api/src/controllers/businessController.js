@@ -22,7 +22,7 @@ export const registerBusiness = async (req, res) => {
     password: hashPassword,
   });
 
-  const newSession = await createSession({ businessId: newBusiness._id });
+  const newSession = await createSession(newBusiness._id);
 
   setSessionCookies(res, newSession);
   res.status(201).json(newBusiness);

@@ -34,6 +34,9 @@ const appointmentSchema = new Schema(
   },
 );
 
+appointmentSchema.index({ businessId: 1, date: 1, time: 1 });
+appointmentSchema.index({ clientId: 1, status: 1 });
+
 appointmentSchema.pre('save', function () {
   if (!this.name) {
     this.name = this.email;
