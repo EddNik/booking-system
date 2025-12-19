@@ -16,13 +16,17 @@ const appointmentSchema = new Schema(
       ref: 'Business',
       required: true,
     },
-    date: { type: String, required: true },
-    tag: {
+    date: {
       type: String,
-      enum: BOOK_HOURS,
-      default: 'Todo',
+      required: true,
+      message: 'Date must be in format YYYY-MM-DD',
     },
-    status: { type: String, default: 'booked' },
+    time: {
+      type: String,
+      required: true,
+      enum: BOOK_HOURS,
+    },
+    status: { type: String, enum: ['booked', 'cancelled'], default: 'booked' },
   },
   {
     timestamps: true,

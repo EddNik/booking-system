@@ -93,3 +93,24 @@ export const refreshClientSession = async (req, res) => {
     message: 'Session refreshed',
   });
 };
+
+export const deleteClient = async (req, res) => {
+  const { email } = req.body;
+
+  const existingClient = await Client.findOneAndDelete({ email: email });
+
+  if (!existingClient) {
+    throw createHttpError(404, 'Client not found');
+  }
+
+  const { sessionId } = req.cookies;
+
+  if (sessionId) {
+    await Session.deleteOne({ _id: sessionId });
+  }
+  res.clearCookie('sessionId');
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+
+  res.status(204).send();
+};

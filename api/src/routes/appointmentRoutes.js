@@ -14,14 +14,22 @@ import { authenticate } from '../middleware/authenticate.js';
 
 const appointRouter = Router();
 
-appointRouter.use('/appointment', authenticate);
+appointRouter.use('/appointments', authenticate);
 
-appointRouter.get('/appointment', celebrate(getAppointSchema), getAppointments);
+appointRouter.get(
+  '/appointments',
+  celebrate(getAppointSchema),
+  getAppointments,
+);
+
+// appointRouter.get('/appointments/business', getBusinessAppointments);
 
 appointRouter.post(
-  '/appointment',
+  '/appointments',
   celebrate(createAppointSchema),
   bookAppointment,
 );
+
+// appointRouter.delete('/appointments/:id', cancelAppointment);
 
 export default appointRouter;
