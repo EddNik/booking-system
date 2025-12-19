@@ -85,8 +85,8 @@ export const deleteBusiness = async (req, res) => {
   }
 
   await Appointment.updateMany(
-    { businessId: existingBusiness._id },
-    { $set: { businessId: null } },
+    { businessId: existingBusiness._id, status: 'booked' },
+    { status: 'cancelled' },
   );
 
   res.status(204).send();

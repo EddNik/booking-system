@@ -106,7 +106,7 @@ export const deleteClient = async (req, res) => {
   }
 
   await Appointment.updateMany(
-    { clientId: existingClient._id, status: { $ne: 'cancelled' } },
+    { clientId: existingClient._id, status: 'booked' },
     { status: 'cancelled' },
   );
 

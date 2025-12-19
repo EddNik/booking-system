@@ -16,9 +16,16 @@ export const createBusinessSchema = {
   }),
 };
 
-export const updateBusinessSchema = {
+export const loginBusinessSchema = {
   [Segments.BODY]: Joi.object({
-    name: Joi.string().min(2).max(20),
-    email: Joi.string().email(),
-  }).min(1),
+    email: Joi.string().email().required().trim().lowercase(),
+    password: Joi.string().required(),
+  }),
 };
+
+// export const updateBusinessSchema = {
+//   [Segments.BODY]: Joi.object({
+//     name: Joi.string().min(2).max(20),
+//     email: Joi.string().email(),
+//   }).min(1),
+// };

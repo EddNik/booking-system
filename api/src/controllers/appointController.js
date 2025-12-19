@@ -2,6 +2,7 @@ import { Appointment } from '../models/appointment.js';
 
 export const bookAppointment = async (req, res) => {
   const { clientId, businessId, date, time } = req.body;
+  console.log(req.client);
   const existAppointment = await Appointment.findOne({
     businessId,
     date,
