@@ -8,7 +8,7 @@ export const bookAppointment = async (req, res) => {
     businessId,
     date,
     time,
-    status: { $ne: 'cancelled' },
+    state: 'booked',
   });
   if (existAppointment) {
     return res
@@ -33,7 +33,7 @@ export const getAvailableAppointments = async (req, res) => {
   const bookedAppointments = Appointment.find({
     businessId,
     date,
-    state: 'booked',
+    state: 'available',
   });
   res.status(200).json(bookedAppointments);
 };
