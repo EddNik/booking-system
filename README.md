@@ -1,8 +1,12 @@
-# Booking System API(backend)
+# Appointment Booking System
+
+A modern, full-stack appointment booking application built with React, Node.js, and PostgreSQL. Features a beautiful UI, secure authentication, and robust booking management system.
+
+## API(backend)
 
 A RESTful API for an appointment booking system that allows clients to book appointments with businesses. Built with Node.js, Express, and MongoDB.
 
-## 📋 Table of Contents
+### 📋 Table of Contents
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -21,7 +25,7 @@ A RESTful API for an appointment booking system that allows clients to book appo
 
 ---
 
-## ✨ Features
+### ✨ Features
 
 - **Client Management**: Register, login, logout, and delete client accounts
 - **Business Management**: Register, login, logout, search, and delete business accounts
@@ -33,7 +37,7 @@ A RESTful API for an appointment booking system that allows clients to book appo
 
 ---
 
-## 🛠 Tech Stack
+### 🛠 Tech Stack
 
 - **Runtime**: Node.js (v18+)
 - **Framework**: Express.js v5
@@ -46,7 +50,7 @@ A RESTful API for an appointment booking system that allows clients to book appo
 
 ---
 
-## 📦 Prerequisites
+### 📦 Prerequisites
 
 - Node.js >= 18.0.0
 - MongoDB >= 7.0
@@ -54,7 +58,7 @@ A RESTful API for an appointment booking system that allows clients to book appo
 
 ---
 
-## 🚀 Installation
+### 🚀 Installation
 
 ```bash
 # Clone the repository
@@ -69,7 +73,7 @@ npm install
 
 ---
 
-## 🔐 Environment Variables
+### 🔐 Environment Variables
 
 Create a `.env` file in the `api` directory:
 
@@ -81,7 +85,7 @@ NODE_ENV=development
 LOG_LEVEL=info
 ```
 
-### Environment Variables Description:
+#### Environment Variables Description:
 
 | Variable       | Description                          | Default     |
 | -------------- | ------------------------------------ | ----------- |
@@ -93,7 +97,7 @@ LOG_LEVEL=info
 
 ---
 
-## 🏃 Running the Application
+### 🏃 Running the Application
 
 ```bash
 # Development mode with auto-reload
@@ -110,15 +114,15 @@ Server will start on `http://localhost:3000`
 
 ---
 
-## 📚 API Documentation
+### 📚 API Documentation
 
 Base URL: `http://localhost:3000`
 
 ---
 
-## 👤 Client Endpoints
+### 👤 Client Endpoints
 
-### Register Client
+#### Register Client
 
 ```http
 POST /client/register
@@ -145,7 +149,7 @@ Content-Type: application/json
 
 ---
 
-### Login Client
+#### Login Client
 
 ```http
 POST /client/login
@@ -173,7 +177,7 @@ Sets cookies: `accessToken`, `refreshToken`, `sessionId`
 
 ---
 
-### Logout Client
+#### Logout Client
 
 ```http
 POST /client/logout
@@ -184,7 +188,7 @@ Cookie: accessToken=xxx; refreshToken=xxx; sessionId=xxx
 
 ---
 
-### Refresh Client Session
+#### Refresh Client Session
 
 ```http
 POST /client/refresh
@@ -201,7 +205,7 @@ Cookie: accessToken=xxx; refreshToken=xxx; sessionId=xxx
 
 ---
 
-### Delete Client Account
+#### Delete Client Account
 
 ```http
 DELETE /client/delete
@@ -218,9 +222,9 @@ Content-Type: application/json
 
 ---
 
-## 🏢 Business Endpoints
+### 🏢 Business Endpoints
 
-### Register Business
+#### Register Business
 
 ```http
 POST /business/register
@@ -247,7 +251,7 @@ Content-Type: application/json
 
 ---
 
-### Login Business
+#### Login Business
 
 ```http
 POST /business/login
@@ -273,7 +277,7 @@ Content-Type: application/json
 
 ---
 
-### Logout Business
+#### Logout Business
 
 ```http
 POST /business/logout
@@ -284,7 +288,7 @@ Cookie: accessToken=xxx; refreshToken=xxx; sessionId=xxx
 
 ---
 
-### Get All Businesses
+#### Get All Businesses
 
 ```http
 GET /businesses?page=1&perPage=10&search=tech
@@ -320,7 +324,7 @@ GET /businesses?page=1&perPage=10&search=tech
 
 ---
 
-### Refresh Business Session
+#### Refresh Business Session
 
 ```http
 POST /business/refresh
@@ -337,7 +341,7 @@ Cookie: accessToken=xxx; refreshToken=xxx; sessionId=xxx
 
 ---
 
-### Delete Business Account
+#### Delete Business Account
 
 ```http
 DELETE /business/delete
@@ -354,13 +358,13 @@ Content-Type: application/json
 
 ---
 
-## 📅 Appointment Endpoints
+### 📅 Appointment Endpoints
 
 > 🔒 **All appointment endpoints require authentication**
 
 ---
 
-### Get Available Appointments
+#### Get Available Appointments
 
 Get available time slots for a business on a specific date.
 
@@ -384,7 +388,7 @@ Cookie: accessToken=xxx; refreshToken=xxx; sessionId=xxx
 
 ---
 
-### Book Appointment
+#### Book Appointment
 
 ```http
 POST /appointments/book
@@ -424,7 +428,7 @@ Content-Type: application/json
 
 ---
 
-### Get Client's Appointments
+#### Get Client's Appointments
 
 Get all appointments for the authenticated client.
 
@@ -469,7 +473,7 @@ Cookie: accessToken=xxx; refreshToken=xxx; sessionId=xxx
 
 ---
 
-### Get Business's Appointments
+#### Get Business's Appointments
 
 Get all appointments for the authenticated business.
 
