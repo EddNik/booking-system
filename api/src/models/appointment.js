@@ -4,8 +4,8 @@ import { BOOK_HOURS } from '../constants/bookHours.js';
 const appointmentSchema = new Schema(
   {
     name: { type: String, trim: true },
-    email: { type: String, unique: true, required: true, trim: true },
-    password: { type: String, required: true },
+    email: { type: String, unique: true, required: false, trim: true },
+    password: { type: String, required: false },
     clientId: {
       type: Schema.Types.ObjectId,
       ref: 'Client',
@@ -19,14 +19,13 @@ const appointmentSchema = new Schema(
     date: {
       type: String,
       required: true,
-      message: 'Date must be in format YYYY-MM-DD',
     },
     time: {
       type: String,
       required: true,
       enum: BOOK_HOURS,
     },
-    status: { type: String, enum: ['booked', 'cancelled'], default: 'booked' },
+    state: { type: String, enum: ['booked', 'available'], default: 'booked' },
   },
   {
     timestamps: true,
@@ -34,8 +33,8 @@ const appointmentSchema = new Schema(
   },
 );
 
-appointmentSchema.index({ businessId: 1, date: 1, time: 1 });
-appointmentSchema.index({ clientId: 1, status: 1 });
+appointmentSchema.index({ businessId: 1, state: 1 });
+appointmentSchema.index({ clientId: 1, state: 1 });
 
 appointmentSchema.pre('save', function () {
   if (!this.name) {

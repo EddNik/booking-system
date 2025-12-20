@@ -5,13 +5,16 @@ import {
   createBusinessSchema,
   getBusinessSchema,
   // updateBusinessSchema,
+  loginBusinessSchema,
 } from '../validations/businessValidation.js';
 
 import {
   registerBusiness,
   loginBusiness,
+  logoutBusiness,
   getAllBusinesses,
   deleteBusiness,
+  refreshBusinessSession,
 } from '../controllers/businessController.js';
 
 const businessRouter = Router();
@@ -24,9 +27,11 @@ businessRouter.post(
 
 businessRouter.post(
   '/business/login',
-  celebrate(createBusinessSchema),
+  celebrate(loginBusinessSchema),
   loginBusiness,
 );
+
+businessRouter.post('/business/logout', logoutBusiness);
 
 businessRouter.get(
   '/businesses',
@@ -34,12 +39,8 @@ businessRouter.get(
   getAllBusinesses,
 );
 
-// businessRouter.patch(
-//   '/businesses/:id',
-//   celebrate(updateBusinessSchema),
-//   // updateBusiness,
-// );
+businessRouter.post('/business/refresh', refreshBusinessSession);
 
-businessRouter.delete('/business/:id', deleteBusiness);
+businessRouter.delete('/business/delete', deleteBusiness);
 
 export default businessRouter;

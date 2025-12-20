@@ -5,10 +5,6 @@ const businessSchema = new Schema(
     name: { type: String, trim: true },
     email: { type: String, unique: true, required: true, trim: true },
     password: { type: String, required: true },
-    clientId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Client',
-    },
   },
   {
     timestamps: true,

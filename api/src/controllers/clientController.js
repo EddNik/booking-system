@@ -22,7 +22,7 @@ export const registerClient = async (req, res) => {
     name: name || email,
   });
 
-  const newSession = await createSession(newClient._id, 'Client');
+  const newSession = await createSession({ clientId: newClient._id });
 
   setSessionCookies(res, newSession);
 
@@ -44,7 +44,7 @@ export const loginClient = async (req, res) => {
     throw createHttpError(401, 'Password is wrong');
   }
 
-  await Session.deleteOne({ clientId: existingClient._id });
+  await Session.deleteOne({ client: existingClient._id });
 
   const newSession = await createSession({ clientId: existingClient._id });
 
@@ -88,7 +88,7 @@ export const refreshClientSession = async (req, res) => {
     refreshToken: req.cookies.refreshToken,
   });
 
-  const newSession = await createSession(session.client);
+  const newSession = await createSession({ clientId: session.client });
   setSessionCookies(res, newSession);
 
   res.status(200).json({
@@ -106,8 +106,8 @@ export const deleteClient = async (req, res) => {
   }
 
   await Appointment.updateMany(
-    { clientId: existingClient._id, status: 'booked' },
-    { status: 'cancelled' },
+    { clientId: existingClient._id, state: 'booked' },
+    { state: 'available' },
   );
 
   const { sessionId } = req.cookies;

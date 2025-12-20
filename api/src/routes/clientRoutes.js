@@ -3,7 +3,7 @@ import { Router } from 'express';
 import {
   registerClientSchema,
   loginClientSchema,
-} from '../validations/authValidation.js';
+} from '../validations/clientValidation.js';
 import {
   registerClient,
   loginClient,
