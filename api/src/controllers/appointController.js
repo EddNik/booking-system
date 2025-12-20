@@ -2,7 +2,7 @@ import { Appointment } from '../models/appointment.js';
 import createHttpError from 'http-errors';
 
 export const bookAppointment = async (req, res) => {
-  const { clientId, businessId, date, time, email, name } = req.body;
+  const { clientId, businessId, date, time } = req.body;
   console.log(req.client);
   const existAppointment = await Appointment.findOne({
     businessId,
@@ -21,21 +21,34 @@ export const bookAppointment = async (req, res) => {
     businessId,
     date,
     time,
-    email,
-    name,
+    state: 'booked',
   });
-  res.status(201).json(newAppointment);
+
+  const bookedAppointment = await Appointment.findById(newAppointment._id)
+    .populate('businessId', 'name email')
+    .populate('clientId', 'name email');
+
+  res.status(201).json(bookedAppointment);
 };
 
 export const getAvailableAppointments = async (req, res) => {
   const { businessId, date } = req.query;
 
-  const bookedAppointments = Appointment.find({
+  if (!businessId || !date) {
+    return res.status(400).json({
+      message: 'Not found businessId or date',
+    });
+  }
+
+  const availableAppointments = await Appointment.find({
     businessId,
     date,
     state: 'available',
   });
-  res.status(200).json(bookedAppointments);
+
+  const availableTime = availableAppointments.map((appoint) => appoint.time);
+
+  res.status(200).json(availableTime);
 };
 
 export const cancelAppointment = async (req, res) => {

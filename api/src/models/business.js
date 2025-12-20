@@ -14,7 +14,7 @@ const businessSchema = new Schema(
 
 businessSchema.index({ name: 'text', email: 'text' });
 
-businessSchema.pre('save', function (next) {
+businessSchema.pre('save', function () {
   if (!this.name) {
     this.name = this.email;
   }

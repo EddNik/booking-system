@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { celebrate } from 'celebrate';
 import {
   createAppointSchema,
-  getAppointmentsSchema,
+  getAvailableAppointSchema,
 } from '../validations/appointValidation.js';
 import {
   getAvailableAppointments,
@@ -19,7 +19,7 @@ appointRouter.use('/appointments', authenticate);
 
 appointRouter.get(
   '/appointments/available',
-  celebrate(getAppointmentsSchema),
+  celebrate(getAvailableAppointSchema),
   getAvailableAppointments,
 );
 

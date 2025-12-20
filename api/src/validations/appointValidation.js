@@ -45,3 +45,12 @@ export const getAppointmentsSchema = {
     perPage: Joi.number().integer().min(5).max(20).default(10),
   }),
 };
+
+export const getAvailableAppointSchema = {
+  [Segments.QUERY]: Joi.object({
+    businessId: Joi.string().required(),
+    date: Joi.string()
+      .required()
+      .pattern(/^\d{4}-\d{2}-\d{2}$/),
+  }),
+};

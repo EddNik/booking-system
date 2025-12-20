@@ -25,7 +25,11 @@ const appointmentSchema = new Schema(
       required: true,
       enum: BOOK_HOURS,
     },
-    state: { type: String, enum: ['booked', 'available'], default: 'booked' },
+    state: {
+      type: String,
+      enum: ['booked', 'available'],
+      default: 'available',
+    },
   },
   {
     timestamps: true,
