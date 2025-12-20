@@ -43,7 +43,7 @@ export const loginBusiness = async (req, res) => {
   );
 
   if (!validPassword) {
-    throw createHttpError(401, 'Password is wrong');
+    throw createHttpError(401, 'Incorrect password');
   }
 
   await Session.deleteOne({ business: existingBusiness._id });
