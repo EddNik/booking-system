@@ -4,18 +4,22 @@ import { celebrate } from 'celebrate';
 import {
   createAppointSchema,
   getAvailableAppointSchema,
+  rejectAppointmentSchema,
+  getAppointmentsSchema,
 } from '../validations/appointValidation.js';
 import {
   getAvailableAppointments,
   bookAppointment,
   rejectAppointment,
+  getClientAppointments,
+  getBusinessAppointments,
 } from '../controllers/appointController.js';
 
 import { authenticate } from '../middleware/authenticate.js';
 
 const appointRouter = Router();
 
-appointRouter.use('/appointments', authenticate);
+appointRouter.use(authenticate);
 
 appointRouter.get(
   '/appointments/available',
@@ -23,8 +27,16 @@ appointRouter.get(
   getAvailableAppointments,
 );
 
-// appointRouter.get('/appointments/client', getClientAppointments);
-// appointRouter.get('/appointments/business', getBusinessAppointments);
+appointRouter.get(
+  '/appointments/client',
+  celebrate(getAppointmentsSchema),
+  getClientAppointments,
+);
+appointRouter.get(
+  '/appointments/business',
+  celebrate(getAppointmentsSchema),
+  getBusinessAppointments,
+);
 
 appointRouter.post(
   '/bookAppointment',
@@ -32,6 +44,10 @@ appointRouter.post(
   bookAppointment,
 );
 
-appointRouter.delete('/appointments/:id', rejectAppointment);
+appointRouter.delete(
+  '/appointments/:id',
+  celebrate(rejectAppointmentSchema),
+  rejectAppointment,
+);
 
 export default appointRouter;

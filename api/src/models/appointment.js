@@ -3,9 +3,6 @@ import { BOOK_HOURS } from '../constants/bookHours.js';
 
 const appointmentSchema = new Schema(
   {
-    name: { type: String, trim: true },
-    email: { type: String, unique: false, required: false, trim: true },
-    password: { type: String, required: false },
     clientId: {
       type: Schema.Types.ObjectId,
       ref: 'Client',
