@@ -24,8 +24,8 @@ export const bookAppointment = async (req, res) => {
   });
 
   const bookedAppointment = await Appointment.findById(newAppointment._id)
-    .populate('businessId', 'name email')
-    .populate('clientId', 'name email');
+    .populate({ path: 'businessId', select: 'name email' })
+    .populate({ path: 'clientId', select: 'name email' });
 
   res.status(201).json(bookedAppointment);
 };
