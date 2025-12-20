@@ -6,8 +6,9 @@ import {
   getAppointmentsSchema,
 } from '../validations/appointValidation.js';
 import {
-  getAppointments,
+  getAvailableAppointments,
   bookAppointment,
+  cancelAppointment,
 } from '../controllers/appointController.js';
 
 import { authenticate } from '../middleware/authenticate.js';
@@ -19,7 +20,7 @@ appointRouter.use('/appointments', authenticate);
 appointRouter.get(
   '/appointments/available',
   celebrate(getAppointmentsSchema),
-  getAppointments,
+  getAvailableAppointments,
 );
 
 // appointRouter.get('/appointments/client', getClientAppointments);
@@ -37,6 +38,6 @@ appointRouter.post(
 // updateAppointment,
 // );
 
-// appointRouter.delete('/appointments/:id', cancelAppointment);
+appointRouter.delete('/appointments/:id', cancelAppointment);
 
 export default appointRouter;

@@ -37,21 +37,9 @@ export const updateAppointSchema = {
   }),
 };
 
-// export const getAvailableAppointSchema = {
-//   [Segments.QUERY]: Joi.object({
-//     businessId: Joi.string().length(24).hex().required(),
-//     date: Joi.string()
-//       .required()
-//       .pattern(/^\d{4}-\d{2}-\d{2}$/)
-//       .messages({
-//         'string.base': 'Date must be in format YYYY-MM-DD',
-//       }),
-//   }),
-// };
-
 export const getAppointmentsSchema = {
   [Segments.QUERY]: Joi.object({
-    status: Joi.string().valid('booked', 'available'),
+    state: Joi.string().valid('booked', 'available'),
     date: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/),
     page: Joi.number().integer().min(1).default(1),
     perPage: Joi.number().integer().min(5).max(20).default(10),
