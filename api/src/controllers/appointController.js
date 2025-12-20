@@ -51,7 +51,37 @@ export const getAvailableAppointments = async (req, res) => {
   res.status(200).json(availableTime);
 };
 
-export const cancelAppointment = async (req, res) => {
+export const getClientAppointments = async (req, res) => {
+  const clientId = req.user._id;
+  const { state, page = 1, perPage = 10 } = req.query;
+
+  const skip = (page - 1) * perPage;
+  const query = { clientId };
+
+  if (state) {
+    query.state = state;
+  }
+
+  const [totalAppointments, appointments] = await Promise.all([
+    Appointment.countDocuments(query),
+    Appointment.find(query)
+      .populate('businessId', 'name email')
+      .skip(skip)
+      .limit(perPage),
+  ]);
+
+  const totalPages = Math.ceil(totalAppointments / perPage);
+
+  res.status(200).json({
+    page: page,
+    perPage: perPage,
+    totalAppointments,
+    totalPages,
+    appointments,
+  });
+};
+
+export const rejectAppointment = async (req, res) => {
   const { appointmentId } = req.params;
 
   const appointment = await Appointment.findByIdAndUpdate(
@@ -63,6 +93,9 @@ export const cancelAppointment = async (req, res) => {
   if (!appointment) {
     throw createHttpError(404, 'Appointment not found');
   }
+
+  appointment.state = 'available';
+  await appointment.save();
 
   res.status(200).json(appointment);
 };

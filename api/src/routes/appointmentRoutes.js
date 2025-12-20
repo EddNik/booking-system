@@ -8,7 +8,7 @@ import {
 import {
   getAvailableAppointments,
   bookAppointment,
-  cancelAppointment,
+  rejectAppointment,
 } from '../controllers/appointController.js';
 
 import { authenticate } from '../middleware/authenticate.js';
@@ -32,12 +32,6 @@ appointRouter.post(
   bookAppointment,
 );
 
-// appointRouter.patch(
-//   '/appointments/:id',
-// celebrate(updateAppointmentSchema),
-// updateAppointment,
-// );
-
-appointRouter.delete('/appointments/:id', cancelAppointment);
+appointRouter.delete('/appointments/:id', rejectAppointment);
 
 export default appointRouter;
