@@ -99,16 +99,14 @@ export const refreshBusinessSession = async (req, res) => {
 export const getAllBusinesses = async (req, res) => {
   const { search, page = 1, perPage = 10 } = req.query;
   const skip = (page - 1) * perPage;
-
-  const businessQuery = Business.find();
-
+  const filter = {};
   if (search) {
-    businessQuery.where({ $text: { $search: search } });
+    filter.$text = { $search: search };
   }
 
   const [totalBusinesses, businesses] = await Promise.all([
-    businessQuery.clone().countDocuments(),
-    businessQuery.skip(skip).limit(perPage),
+    Business.countDocuments(filter),
+    Business.find(filter).skip(skip).limit(perPage),
   ]);
 
   const totalPages = Math.ceil(totalBusinesses / perPage);
@@ -119,16 +117,16 @@ export const getAllBusinesses = async (req, res) => {
 };
 
 export const deleteBusiness = async (req, res) => {
-  const { email } = req.body;
+  const businessId = req.user._id;
 
-  const existingBusiness = await Business.findOneAndDelete({ email });
+  const existingBusiness = await Business.findOneAndDelete(businessId);
 
   if (!existingBusiness) {
     throw createHttpError(404, 'Business not found');
   }
 
   await Appointment.updateMany(
-    { businessId: existingBusiness._id, state: 'booked' },
+    { businessId, state: 'booked' },
     { state: 'available' },
   );
 
