@@ -52,17 +52,16 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
 
   const handleBook = () => {
     if (!selectedBusinessId || !bookDate) return alert("Оберіть час");
-    const dateObj = new Date(bookDate);
+    //   const dateObj = new Date(bookDate);
+
+    const [datePart, timePart] = bookDate.split("T");
 
     createMutation.mutate({
       clientId: userId,
       businessId: selectedBusinessId,
-      date: dateObj.toISOString(),
-      time: dateObj.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      duration: 60,
+      date: datePart,
+      time: timePart,
+      //   duration: 60,
     } as any);
   };
 

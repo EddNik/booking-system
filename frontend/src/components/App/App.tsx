@@ -76,10 +76,10 @@ function App() {
         res = await clientRegisterLogin(payload, path);
         // Важливо: перевірте структуру відповіді бекенду (res.name чи res.client.name)
         // Згідно з вашим останнім кодом appointService, це просто res.name
-        setUser({ role: "client", name: res.name || res.email });
+        setUser({ role: "client", name: res.name || res.email, id: res._id });
       } else {
         res = await businessRegisterLogin(payload, path);
-        setUser({ role: "business", name: res.name || res.email });
+        setUser({ role: "business", name: res.name || res.email, id: res._id });
       }
     } catch (err: any) {
       console.error("Auth Error:", err);
@@ -261,7 +261,7 @@ function App() {
               path="/"
               element={
                 user.role === "client" ? (
-                  <ClientDashboard />
+                  <ClientDashboard userId={user.id} />
                 ) : (
                   <BusinessDashboard />
                 )

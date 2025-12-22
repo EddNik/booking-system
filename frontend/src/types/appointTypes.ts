@@ -1,6 +1,7 @@
 export type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
 
 export interface Appointment {
+  _id: string;
   clientId: { _id: string; name: string; email: string };
   businessId: { _id: string; name: string; email: string };
   date: string;
@@ -9,12 +10,14 @@ export interface Appointment {
 }
 
 export interface Client {
+  _id: string;
   name?: string;
   email: string;
   password?: string;
 }
 
 export interface Business {
+  _id: string;
   name?: string;
   email: string;
   password: string;
