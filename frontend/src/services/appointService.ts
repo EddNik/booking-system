@@ -7,7 +7,7 @@ import type {
 } from "../types/appointTypes";
 
 export const apiBaseRequestOptions = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:4000",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -16,19 +16,15 @@ export const apiBaseRequestOptions = axios.create({
 });
 
 export interface ClientRegLoginResponse {
-  client: {
-    _id: string;
-    email: string;
-    name: string;
-  };
+  _id: string;
+  email: string;
+  name: string;
 }
 
 export interface BusinessRegLoginResponse {
-  business: {
-    _id: string;
-    email: string;
-    name: string;
-  };
+  _id: string;
+  email: string;
+  name: string;
 }
 
 export async function clientRegisterLogin(

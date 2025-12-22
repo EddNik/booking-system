@@ -1,0 +1,141 @@
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  fetchBusinesses,
+  fetchClientAppointments,
+  bookAppointment,
+  cancelAppointment,
+} from "../../services/appointService";
+import css from "./ClientDashboard.module.css";
+
+// Додаємо інтерфейс пропсів
+interface ClientDashboardProps {
+  userId: string;
+}
+
+export default function ClientDashboard({ userId }: ClientDashboardProps) {
+  const queryClient = useQueryClient();
+  const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(
+    null
+  );
+  const [search, setSearch] = useState("");
+  const [bookDate, setBookDate] = useState("");
+
+  // Завантаження даних
+  const { data: businessesData } = useQuery({
+    queryKey: ["businesses", search],
+    queryFn: () => fetchBusinesses(search, 1),
+  });
+
+  const { data: appointmentsData } = useQuery({
+    queryKey: ["client-appointments"],
+    queryFn: () => fetchClientAppointments({}),
+  });
+
+  // Мутації
+  const createMutation = useMutation({
+    mutationFn: bookAppointment,
+    onSuccess: () => {
+      alert("Запис створено!");
+      setSelectedBusinessId(null);
+      setBookDate("");
+      queryClient.invalidateQueries({ queryKey: ["client-appointments"] });
+    },
+    onError: (err: any) => alert(err.response?.data?.message || "Помилка"),
+  });
+
+  const cancelMutation = useMutation({
+    mutationFn: cancelAppointment,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["client-appointments"] }),
+  });
+
+  const handleBook = () => {
+    if (!selectedBusinessId || !bookDate) return alert("Оберіть час");
+    const dateObj = new Date(bookDate);
+
+    createMutation.mutate({
+      clientId: userId,
+      businessId: selectedBusinessId,
+      date: dateObj.toISOString(),
+      time: dateObj.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      duration: 60,
+    } as any);
+  };
+
+  const businesses = businessesData?.businesses || [];
+  const appointments = appointmentsData?.appointments || [];
+
+  return (
+    <div className={css.container}>
+      <div className={css.headerRow}>
+        <h1>Пошук послуг</h1>
+        <input
+          type="text"
+          placeholder="Знайти бізнес..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className={css.search}
+        />
+      </div>
+
+      <div className={css.grid}>
+        {businesses.map(biz => (
+          <div key={biz._id} className={css.card}>
+            <h3>{biz.name}</h3>
+            <p>{biz.email}</p>
+
+            {selectedBusinessId === biz._id ? (
+              <div className={css.bookingForm}>
+                <input
+                  type="datetime-local"
+                  value={bookDate}
+                  onChange={e => setBookDate(e.target.value)}
+                  className={css.inputDate}
+                />
+                <button onClick={handleBook} className={css.btnPrimary}>
+                  Підтвердити
+                </button>
+                <button
+                  onClick={() => setSelectedBusinessId(null)}
+                  className={css.btnSecondary}
+                >
+                  Скасувати
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setSelectedBusinessId(biz._id)}
+                className={css.btnPrimary}
+              >
+                Обрати
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <h2 className={css.sectionTitle}>Мої записи</h2>
+      <ul className={css.appointmentList}>
+        {appointments.map(app => (
+          <li key={app._id} className={css.appointmentItem}>
+            <div>
+              <strong>{(app.businessId as any)?.name || "Бізнес"}</strong>
+              <br />
+              <span>{new Date(app.date).toLocaleString()}</span>
+            </div>
+            <button
+              onClick={() => cancelMutation.mutate(app._id)}
+              className={css.btnCancel}
+            >
+              Скасувати
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
