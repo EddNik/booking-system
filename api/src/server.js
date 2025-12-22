@@ -21,7 +21,7 @@ app.use(
     origin: [
       'http://localhost:5174',
       'http://localhost:3000',
-      process.env.FRONTEND_URL,
+      process.env.FRONTEND_DOMEN,
     ].filter(Boolean),
     credentials: true,
   }),
