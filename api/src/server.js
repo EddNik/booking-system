@@ -21,6 +21,7 @@ app.use(
     origin: [
       'http://localhost:5174',
       'http://localhost:3000',
+      'https://booking-system-nine-bice.vercel.app',
       process.env.FRONTEND_DOMEN,
     ].filter(Boolean),
     credentials: true,
