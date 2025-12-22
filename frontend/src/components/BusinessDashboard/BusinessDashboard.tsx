@@ -42,7 +42,7 @@ export default function BusinessDashboard() {
                       minute: "2-digit",
                     })}
                   </td>
-                  <td>{app.duration} хв</td>
+                  {/* <td>{app.duration} хв</td> */}
                 </tr>
               ))}
             </tbody>
