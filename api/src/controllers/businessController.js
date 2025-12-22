@@ -119,7 +119,7 @@ export const getAllBusinesses = async (req, res) => {
 export const deleteBusiness = async (req, res) => {
   const businessId = req.user._id;
 
-  const existingBusiness = await Business.findOneAndDelete(businessId);
+  const existingBusiness = await Business.findByIdAndDelete(businessId);
 
   if (!existingBusiness) {
     throw createHttpError(404, 'Business not found');

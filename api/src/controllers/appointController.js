@@ -24,8 +24,8 @@ export const bookAppointment = async (req, res) => {
   });
 
   const bookedAppointment = await Appointment.findById(newAppointment._id)
-    .populate({ path: 'businessId', select: 'name email' })
-    .populate({ path: 'clientId', select: 'name email' });
+    .populate({ path: 'businessId', select: ['name', 'email'] })
+    .populate({ path: 'clientId', select: ['name', 'email'] });
 
   res.status(201).json(bookedAppointment);
 };
@@ -51,7 +51,7 @@ export const getAvailableAppointments = async (req, res) => {
 };
 
 export const getClientAppointments = async (req, res) => {
-  const { state = 'available', page = 1, perPage = 10 } = req.query;
+  const { state = 'booked', page = 1, perPage = 10 } = req.query;
   const skip = (page - 1) * perPage;
 
   const query = { clientId: req.user._id, state };
@@ -59,7 +59,7 @@ export const getClientAppointments = async (req, res) => {
   const [totalAppointments, appointments] = await Promise.all([
     Appointment.countDocuments(query),
     Appointment.find(query)
-      .populate({ path: 'businessId', select: 'name email' })
+      .populate({ path: 'businessId', select: ['name', 'email'] })
       .skip(skip)
       .limit(perPage),
   ]);
@@ -84,7 +84,7 @@ export const getBusinessAppointments = async (req, res) => {
   const [totalAppointments, appointments] = await Promise.all([
     Appointment.countDocuments(query),
     Appointment.find(query)
-      .populate({ path: 'clientId', select: 'name email' })
+      .populate({ path: 'clientId', select: ['name', 'email'] })
       .skip(skip)
       .limit(perPage),
   ]);
@@ -107,7 +107,9 @@ export const rejectAppointment = async (req, res) => {
     appointmentId,
     { state: 'available' },
     { new: true },
-  );
+  )
+    .populate({ path: 'businessId', select: ['name', 'email'] })
+    .populate({ path: 'clientId', select: ['name', 'email'] });
 
   if (!appointment) {
     throw createHttpError(404, 'Appointment not found');

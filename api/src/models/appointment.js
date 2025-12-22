@@ -37,16 +37,4 @@ const appointmentSchema = new Schema(
 appointmentSchema.index({ businessId: 1, state: 1 });
 appointmentSchema.index({ clientId: 1, state: 1 });
 
-appointmentSchema.pre('save', function () {
-  if (!this.name) {
-    this.name = this.email;
-  }
-});
-
-appointmentSchema.methods.toJSON = function () {
-  const obj = this.toObject();
-  delete obj.password;
-  return obj;
-};
-
 export const Appointment = model('Appointment', appointmentSchema);

@@ -97,9 +97,9 @@ export const refreshClientSession = async (req, res) => {
 };
 
 export const deleteClient = async (req, res) => {
-  const { email } = req.body;
+  const clientId = req.user._id;
 
-  const existingClient = await Client.findOneAndDelete({ email });
+  const existingClient = await Client.findByIdAndDelete(clientId);
 
   if (!existingClient) {
     throw createHttpError(404, 'Client not found');

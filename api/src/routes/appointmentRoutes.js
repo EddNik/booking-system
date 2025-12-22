@@ -44,8 +44,8 @@ appointRouter.post(
   bookAppointment,
 );
 
-appointRouter.delete(
-  '/appointments/:appointmentId',
+appointRouter.patch(
+  '/appointments/reject/:appointmentId',
   celebrate(rejectAppointmentSchema),
   rejectAppointment,
 );
