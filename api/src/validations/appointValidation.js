@@ -40,7 +40,8 @@ export const updateAppointSchema = {
 export const getAppointmentsSchema = {
   [Segments.QUERY]: Joi.object({
     state: Joi.string().valid('booked', 'available'),
-    date: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/),
+    date: Joi.string(),
+    // date: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/),
     page: Joi.number().integer().min(1).default(1),
     perPage: Joi.number().integer().min(5).max(20).default(10),
   }),
@@ -49,9 +50,8 @@ export const getAppointmentsSchema = {
 export const getAvailableAppointSchema = {
   [Segments.QUERY]: Joi.object({
     businessId: Joi.string().required(),
-    date: Joi.string()
-      .required()
-      .pattern(/^\d{4}-\d{2}-\d{2}$/),
+    date: Joi.string().required(),
+    // .pattern(/^\d{4}-\d{2}-\d{2}$/),
   }),
 };
 
