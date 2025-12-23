@@ -7,7 +7,6 @@ import css from "./App.module.css";
 import type { UserRole, UserState } from "../../types/appointTypes";
 import Modal from "../Modal/Modal";
 import { AuthForm } from "../AuthForm/AuthForm";
-import Footer from "../Footer/Footer";
 
 interface ModalState {
   isOpen: boolean;
@@ -81,7 +80,6 @@ function App() {
           />
         </Modal>
       )}
-      {/* <Footer /> */}
     </BrowserRouter>
   );
 }
