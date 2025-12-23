@@ -20,7 +20,6 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
   const [search, setSearch] = useState("");
   const [bookDate, setBookDate] = useState("");
 
-  // Завантаження даних
   const { data: businessesData } = useQuery({
     queryKey: ["businesses", search],
     queryFn: () => fetchBusinesses(search, 1),
