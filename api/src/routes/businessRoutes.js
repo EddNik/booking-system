@@ -8,7 +8,7 @@ import {
   loginBusinessSchema,
 } from '../validations/businessValidation.js';
 
-// import { authenticate } from '../middleware/authenticate.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 import {
   registerBusiness,
@@ -33,7 +33,7 @@ businessRouter.post(
   loginBusiness,
 );
 
-// businessRouter.use(authenticate);
+businessRouter.use(authenticate);
 
 businessRouter.post('/business/logout', logoutBusiness);
 

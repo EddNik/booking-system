@@ -15,11 +15,7 @@ import {
   getBusinessAppointments,
 } from '../controllers/appointController.js';
 
-import { authenticate } from '../middleware/authenticate.js';
-
 const appointRouter = Router();
-
-appointRouter.use(authenticate);
 
 appointRouter.get(
   '/appointments/available',
