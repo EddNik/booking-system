@@ -12,19 +12,18 @@ export default function BusinessDashboard() {
 
   return (
     <div className={css.container}>
-      <h1>Календар записів</h1>
+      <h2>Calendar</h2>
 
       {appointments.length === 0 ? (
-        <div className={css.noData}>У вас поки немає активних записів.</div>
+        <div className={css.noData}>No active appointments yet.</div>
       ) : (
         <div className={css.tableWrapper}>
           <table className={css.table}>
             <thead>
               <tr>
-                <th>Клієнт</th>
-                <th>Дата</th>
-                <th>Час</th>
-                <th>Тривалість</th>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Time</th>
               </tr>
             </thead>
             <tbody>
@@ -33,7 +32,7 @@ export default function BusinessDashboard() {
                   <td>
                     {(app.clientId as any)?.name ||
                       (app.clientId as any)?.email ||
-                      "Гість"}
+                      "Client"}
                   </td>
                   <td>{new Date(app.date).toLocaleDateString()}</td>
                   <td>
@@ -42,7 +41,6 @@ export default function BusinessDashboard() {
                       minute: "2-digit",
                     })}
                   </td>
-                  {/* <td>{app.duration} хв</td> */}
                 </tr>
               ))}
             </tbody>

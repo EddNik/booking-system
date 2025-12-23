@@ -36,3 +36,15 @@ export interface UserState {
   name: string;
   id: string;
 }
+
+// export interface ClientAuthRequest {
+//   name?: string;
+//   email: string;
+//   password: string;
+// }
+
+// export interface BusinessAuthRequest {
+//   name?: string;
+//   email: string;
+//   password: string;
+// }

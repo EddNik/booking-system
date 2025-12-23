@@ -8,7 +8,6 @@ import {
 } from "../../services/appointService";
 import css from "./ClientDashboard.module.css";
 
-// Додаємо інтерфейс пропсів
 interface ClientDashboardProps {
   userId: string;
 }
@@ -32,16 +31,14 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
     queryFn: () => fetchClientAppointments({}),
   });
 
-  // Мутації
   const createMutation = useMutation({
     mutationFn: bookAppointment,
     onSuccess: () => {
-      alert("Запис створено!");
       setSelectedBusinessId(null);
       setBookDate("");
       queryClient.invalidateQueries({ queryKey: ["client-appointments"] });
     },
-    onError: (err: any) => alert(err.response?.data?.message || "Помилка"),
+    onError: (err: any) => alert(err.response?.data?.message || "Error"),
   });
 
   const cancelMutation = useMutation({
@@ -51,8 +48,7 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
   });
 
   const handleBook = () => {
-    if (!selectedBusinessId || !bookDate) return alert("Оберіть час");
-    //   const dateObj = new Date(bookDate);
+    if (!selectedBusinessId || !bookDate) return alert("Select all fields");
 
     const [datePart, timePart] = bookDate.split("T");
 
@@ -61,7 +57,6 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
       businessId: selectedBusinessId,
       date: datePart,
       time: timePart,
-      //   duration: 60,
     } as any);
   };
 
@@ -71,10 +66,9 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
   return (
     <div className={css.container}>
       <div className={css.headerRow}>
-        <h1>Пошук послуг</h1>
+        <h1>Search services</h1>
         <input
           type="text"
-          placeholder="Знайти бізнес..."
           value={search}
           onChange={e => setSearch(e.target.value)}
           className={css.search}
@@ -96,13 +90,13 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
                   className={css.inputDate}
                 />
                 <button onClick={handleBook} className={css.btnPrimary}>
-                  Підтвердити
+                  Approve
                 </button>
                 <button
                   onClick={() => setSelectedBusinessId(null)}
                   className={css.btnSecondary}
                 >
-                  Скасувати
+                  Reject
                 </button>
               </div>
             ) : (
@@ -110,7 +104,7 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
                 onClick={() => setSelectedBusinessId(biz._id)}
                 className={css.btnPrimary}
               >
-                Обрати
+                Submit
               </button>
             )}
           </div>
@@ -122,7 +116,7 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
         {appointments.map(app => (
           <li key={app._id} className={css.appointmentItem}>
             <div>
-              <strong>{(app.businessId as any)?.name || "Бізнес"}</strong>
+              <span>{(app.businessId as any)?.name || "Business"}</span>
               <br />
               <span>{new Date(app.date).toLocaleString()}</span>
             </div>
@@ -130,7 +124,7 @@ export default function ClientDashboard({ userId }: ClientDashboardProps) {
               onClick={() => cancelMutation.mutate(app._id)}
               className={css.btnCancel}
             >
-              Скасувати
+              Reject
             </button>
           </li>
         ))}
