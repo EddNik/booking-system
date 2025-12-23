@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import css from "./Header.module.css";
 import type { UserRole } from "../../types/appointTypes";
 import clsx from "clsx";
