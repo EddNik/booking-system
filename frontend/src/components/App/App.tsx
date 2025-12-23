@@ -7,6 +7,7 @@ import {
   clientRegisterLogin,
   businessRegisterLogin,
 } from "../../services/appointService";
+import type { UserRole, UserState } from "../../types/appointTypes";
 
 // CSS для форми (inline для зручності)
 const formStyle = {
@@ -17,14 +18,6 @@ const formStyle = {
   borderRadius: "8px",
   background: "white",
 };
-
-type UserRole = "client" | "business";
-
-interface UserState {
-  role: UserRole;
-  name: string;
-  id: string; // <--- ВАЖЛИВО
-}
 
 function App() {
   const [user, setUser] = useState<UserState | null>(null);

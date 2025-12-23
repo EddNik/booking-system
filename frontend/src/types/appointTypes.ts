@@ -1,4 +1,4 @@
-export type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
+export type UserRole = "client" | "business";
 
 export interface Appointment {
   _id: string;
@@ -29,4 +29,10 @@ export interface NewAppointment {
   date: string;
   time: string;
   state?: "booked" | "available";
+}
+
+export interface UserState {
+  role: UserRole;
+  name: string;
+  id: string;
 }
