@@ -41,46 +41,46 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Header
-        role={user?.role || null}
-        onLogout={handleLogout}
-        onOpenModal={handleOpenModal}
-      />
+    <div className={css.appWrapper}>
+      <BrowserRouter>
+        <Header
+          role={user?.role || null}
+          onLogout={handleLogout}
+          onOpenModal={handleOpenModal}
+        />
 
-      <main className={css.app}>
-        <div className={css.appContainer}>
-          {!user ? (
-            <div>
-              <h2>Booking System</h2>
-            </div>
-          ) : (
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  user.role === "client" ? (
-                    <ClientDashboard userId={user.id} />
-                  ) : (
-                    <BusinessDashboard />
-                  )
-                }
-              />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          )}
-        </div>
-      </main>
-      {modal.isOpen && (
-        <Modal onClose={handleCloseModal}>
-          <AuthForm
-            role={modal.role}
-            mode={modal.mode}
-            onSuccess={handleAuthSuccess}
-          />
-        </Modal>
-      )}
-    </BrowserRouter>
+        <main className={css.app}>
+          <div className={css.appContainer}>
+            {!user ? (
+              <h2 className={css.title}>Booking System</h2>
+            ) : (
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    user.role === "client" ? (
+                      <ClientDashboard userId={user.id} />
+                    ) : (
+                      <BusinessDashboard />
+                    )
+                  }
+                />
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            )}
+          </div>
+        </main>
+        {modal.isOpen && (
+          <Modal onClose={handleCloseModal}>
+            <AuthForm
+              role={modal.role}
+              mode={modal.mode}
+              onSuccess={handleAuthSuccess}
+            />
+          </Modal>
+        )}
+      </BrowserRouter>
+    </div>
   );
 }
 
